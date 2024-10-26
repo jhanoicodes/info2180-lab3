@@ -1,6 +1,15 @@
 let thisPlayer = 'O';
 const whichPlay = Array(9).fill(null);
-
+const whoWins = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+];
 
 window.addEventListener('DOMContentLoaded', () => {
     let game = document.getElementById('game');
@@ -18,13 +27,31 @@ window.addEventListener('DOMContentLoaded', () => {
 }
 );
 
+function winner(){
+    return whoWins.some(win => {
+        const [x, y, z] = win;
+        return whichPlay[x] && whichPlay[x] === whichPlay[y] && whichPlay[x] === whichPlay[z]
+    })
+}
+
+function gameResults(){
+    const statusIndex = document.getElementById('status');
+    statusIndex.textContent = 'Congratulations! ${winner} is the Winner!';
+    statusIndex.classList.add('you-won');
+}
+
 function squareClicked(square, position){
     if (!whichPlay[position]){
         whichPlay[position] = thisPlayer;
         square.textContent = thisPlayer;
         square.classList.add(thisPlayer);
 
-        thisPlayer = thisPlayer === 'O' ? 'x' : 'O';
+        if (winner() === True){
+            gameResults(thisPlayer);
+        }
+        else{
+            thisPlayer = thisPlayer === 'O' ? 'x' : 'O';
+        } 
     }
 }
 
