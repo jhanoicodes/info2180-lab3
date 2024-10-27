@@ -1,9 +1,21 @@
 document.addEventListener('DOMContentLoaded', function(){
     const loadBoard = Array.from(document.querySelectorAll('div'));
     const specificSquare = loadBoard.slice(3, 12);
-    
     const whichPlay = Array(9).fill(null);
+    const divStatus = document.getElementById('status');
+    const determineWin = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
     let thisPlayer = 'O';
+    let whoWins = false;
 
     //Info for the square class
     specificSquare.forEach((square) => {
@@ -14,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     function squareClicked(event){
+        if (whoWins) return;
         const square = event.target;
         const position = Array.from(specificSquare).indexOf(square);
 
@@ -22,6 +35,13 @@ document.addEventListener('DOMContentLoaded', function(){
         square.classList.add(thisPlayer);
 
         whichPlay[position] = thisPlayer;
+
+        if (determineWinner()){
+            whoWins = true;
+            divStatus.textContent = `Congratulations! ${thisPlayer} is the Winner!`;
+            divStatus.classList.add('you-won');
+            return;
+        }
         thisPlayer = thisPlayer === 'O' ? 'X' : 'O';
     }
 
@@ -37,6 +57,16 @@ document.addEventListener('DOMContentLoaded', function(){
     function mouseGone(event){
         const square = event.target;
         square.classList.remove('hover');
+    }
+
+    function determineWinner(){
+        return determineWin.some(possibility => {
+            const [x, y, z] = possibility;
+            if (whichPlay[x] && whichPlay[x] === whichPlay[y] && whichPlay[x] === whichPlay[z]){
+                return true;
+            }
+            return false;
+        });
     }
 
 
