@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function(){
         [0, 4, 8],
         [2, 4, 6]
     ];
+    const newGame = document.querySelector('.btn');
 
     let thisPlayer = 'O';
     let whoWins = false;
@@ -69,12 +70,20 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
+    function gameRestart(){
+        specificSquare.forEach(square => {
+            square.textContent = '';
+            square.classList.remove('O', 'X');
+        });
 
+        whichPlay.fill(null);
+        thisPlayer = 'O';
+        whoWins = false;
 
+        divStatus.textContent = 'Move your mouse over a square and click to play an X or an O.';
+        divStatus.classList.remove('you-won');
+    }
 
-
-
-
-
+    newGame.addEventListener('click', gameRestart);
 
 });
