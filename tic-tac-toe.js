@@ -31,7 +31,10 @@ document.addEventListener('DOMContentLoaded', function(){
         const square = event.target;
         const position = Array.from(specificSquare).indexOf(square);
 
-        if (whichPlay[position] !== null) return;
+        if (whichPlay[position] !== null){ 
+            return;
+        }
+        
         square.textContent = thisPlayer;
         square.classList.add(thisPlayer);
 
